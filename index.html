@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Markdown Project</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="main.css" rel="stylesheet" />
+    </head>
+    <body class="bg-dark">
+
+        <header class="container-fluid d-flex bg-info justify-content-center p-2">
+            <h1>Clock</h1>
+        </header>
+
+        <main class="container d-flex justify-content-center flex-column">
+            <h1 class="text-white text-center p-5">25 + Clock</h1>
+
+            <div class="row">
+                <div class="d-flex flex-column">
+                    <div class="col-6 m-auto bg-info text-dark d-flex justify-content-between">
+                        <div id="break-label" class="p-2 font-weight-bold">Break Length
+                            <div class="row row-cols-3 p-2 h4">
+                                <div id="break-decrement" class="text-white col">-</div>
+                                <div id="break-length" class="text-white col"></div>
+                                <div id="break-increment" class="text-white col">+</div>
+                            </div>
+                            
+                       </div>
+                       <div id="session-label" class="p-2 font-weight-bold">Session Length
+                        <div class="row row-cols-3 p-2 h4">
+                            <div id="session-decrement" class="text-white col">-</div>
+                            <div id="session-length" class="text-white col "></div>
+                            <div id="session-increment" class="text-white col ">+</div>
+                        </div>
+                       </div>
+                    </div>
+
+                    <div class="row text-white d-flex flex-column m-auto bg-success col-6">
+                        <div class="col-12 text-center p-2 h4">
+                            <p id="timer-label" class="border border-1 rounded p-2"></p>
+                        </div>
+
+                        <div class="row h1">
+                            <div id="time-left" class="text-white col p-2 text-center"></div>
+                        </div>
+
+                        <div class="row h6">
+                            <div id="start_stop"class="text-warning col p-2 text-end">start/stop</div>
+                            <div class="text-info col p-2 text-center border border-1 rounded ">clock</div>
+                            <div id="reset" class="text-danger col p-2 text-start">reset</div>
+                            
+                        </div>
+                      
+                    </div>
+
+                    <div class="row text-white d-flex flex-column m-auto bg-success col-6">
+                        <audio id="beep" src="https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3" type='audio/mp3' onclick="playSound()"></audio>
+                    </div>
+                                   
+                </div>
+
+                <div class="row col text-center text-white p-5">
+                    <p>Designed and Coded
+                    <br><em class="text-info">By</em> Levi Domingos</p>
+                </div>
+
+            </div>
+
+        </main>
+    
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+        <link href="main.css" rel="stylesheet" />
+
+        <script src="clockScript.js"></script>
+    </body>
+</html>
