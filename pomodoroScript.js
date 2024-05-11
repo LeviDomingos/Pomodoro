@@ -1,13 +1,8 @@
 class TakeAwayAndAdd {
     constructor() {
-    }
-
-    showResul(val, sign) {
-        if(sign === "-") {
-            return val -= parseInt(1);
-        }
-        if(sign === "+") {
-            return val += parseInt(1);
+       this.operators = {
+            add: (a, b) => a+b,
+            subtractor: (a,b) => a-b
         }
     }
 }
@@ -36,11 +31,11 @@ class ClassSession extends TakeAwayAndAdd {
 
     sessionDecrement() {
         if(this.sessionDecremenetAndIncrement > 10) {
-            const result = this.sessionDecremenetAndIncrement = this.showResul(this.sessionDecremenetAndIncrement, "-");
+            const result = this.sessionDecremenetAndIncrement =  this.operators.subtractor(this.sessionDecremenetAndIncrement, 1);
             return result;
         } else {
             if(this.sessionDecremenetAndIncrement > 1 ) {
-                this.sessionDecremenetAndIncrement = this.showResul(this.sessionDecremenetAndIncrement, "-");
+                this.sessionDecremenetAndIncrement =  this.operators.subtractor(this.sessionDecremenetAndIncrement, 1);
                 const result = "0" + this.sessionDecremenetAndIncrement;
                 return result;
             } else {
@@ -52,7 +47,7 @@ class ClassSession extends TakeAwayAndAdd {
 
     sessionIncrement() {
         if(this.sessionDecremenetAndIncrement < 10) {
-            this.sessionDecremenetAndIncrement = this.showResul(this.sessionDecremenetAndIncrement, "+");
+            this.sessionDecremenetAndIncrement = this.operators.add(this.sessionDecremenetAndIncrement, 1);
             if(this.sessionDecremenetAndIncrement === 10) {
                 const result =  this.sessionDecremenetAndIncrement;
                 return result;
@@ -62,7 +57,7 @@ class ClassSession extends TakeAwayAndAdd {
             }
         } else {
             if(this.sessionDecremenetAndIncrement < 60 ) {
-                const result = this.sessionDecremenetAndIncrement = this.showResul(this.sessionDecremenetAndIncrement, "+");
+                const result = this.sessionDecremenetAndIncrement = this.operators.add(this.sessionDecremenetAndIncrement, 1);
                 return result;
             } else {
                 const result = this.sessionDecremenetAndIncrement;
@@ -91,7 +86,7 @@ class ClassMinutesAndSecond extends TakeAwayAndAdd {
     }
 
     countDownMinutes() {
-        this.minutes = this.showResul(this.minutes, "-");
+        this.minutes =  this.operators.subtractor(this.minutes, 1);
         if(this.minutes < 10) {
             return "0" + this.minutes;
         } else {
@@ -100,7 +95,7 @@ class ClassMinutesAndSecond extends TakeAwayAndAdd {
     }
 
     countDownSeconds() {
-        this.seconds = this.showResul(this.count, "-");
+        this.seconds =  this.operators.subtractor(this.count, 1);
         this.count = this.seconds;
         if(this.count < 10) {
             return "0" + this.seconds;
@@ -124,13 +119,13 @@ class ClassBreak extends TakeAwayAndAdd{
 
     breakDecrement() {
         if(this.breakDecrementAndIncrement > 1) {
-            return this.breakDecrementAndIncrement = this.showResul(this.breakDecrementAndIncrement, "-");
+            return this.breakDecrementAndIncrement = this.operators.subtractor(this.breakDecrementAndIncrement, 1);
         }
     }
 
     breakIncrement() {
         if(this.breakDecrementAndIncrement < 60 ) {
-            return this.breakDecrementAndIncrement = this.showResul(this.breakDecrementAndIncrement, "+");
+            return this.breakDecrementAndIncrement =this.operators.add(this.breakDecrementAndIncrement, 1);
         }
     }
 
