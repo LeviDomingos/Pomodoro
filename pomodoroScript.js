@@ -1,25 +1,42 @@
 class TakeAwayAndAdd {
     constructor() {
-       this.operators = {
-            add: (a, b) => a+b,
-            subtractor: (a,b) => a-b
+    }
+
+    plus(a) {
+        if( a >= 1 && a < 60) {
+            a += 1;
+        } 
+        return a;
+    }
+
+    takeAway(a) {
+        if(a > 1) {
+            a-= 1;
         }
-    }
-}
-
-class ClassTrueOrFalse {
-    constructor() { 
-        this.startandStopTime = true;
-        this.keepTrackOfTime = 0;
-        this.sessionTitle ="Session";
+        return a;
     }
 
-    showStartAndStop = () => this.startandStopTime;
+    countSecondsDown(s) {
+        if(s === 0) {
+            s = 0
+        }
+        else {
+            s -= 1;
+        }
+        return s;
+    }
 
-    resetClassTrueFalse() {
-        this.startandStopTime = true;
-        this.keepTrackOfTime = 0;
-        this.sessionTitle = "Session";
+    countMinutesDown(s, m) {
+        if(s === 59) {
+            m -= 1
+        }
+        return m
+    }
+
+    startBreakTime(m, s) {
+        if(m === 0 && s === 0) {
+            return true;
+        }
     }
 }
 
@@ -30,84 +47,71 @@ class ClassSession extends TakeAwayAndAdd {
     }
 
     sessionDecrement() {
-        if(this.sessionDecremenetAndIncrement > 10) {
-            const result = this.sessionDecremenetAndIncrement =  this.operators.subtractor(this.sessionDecremenetAndIncrement, 1);
-            return result;
-        } else {
-            if(this.sessionDecremenetAndIncrement > 1 ) {
-                this.sessionDecremenetAndIncrement =  this.operators.subtractor(this.sessionDecremenetAndIncrement, 1);
-                const result = "0" + this.sessionDecremenetAndIncrement;
-                return result;
-            } else {
-                const result = "0" + this.sessionDecremenetAndIncrement;
-                return result;
-            }
-        }
+        return this.sessionDecremenetAndIncrement = this.takeAway(this.sessionDecremenetAndIncrement);
     }
 
     sessionIncrement() {
-        if(this.sessionDecremenetAndIncrement < 10) {
-            this.sessionDecremenetAndIncrement = this.operators.add(this.sessionDecremenetAndIncrement, 1);
-            if(this.sessionDecremenetAndIncrement === 10) {
-                const result =  this.sessionDecremenetAndIncrement;
-                return result;
-            } else {
-                const result = "0" + this.sessionDecremenetAndIncrement;
-                return result;
-            }
-        } else {
-            if(this.sessionDecremenetAndIncrement < 60 ) {
-                const result = this.sessionDecremenetAndIncrement = this.operators.add(this.sessionDecremenetAndIncrement, 1);
-                return result;
-            } else {
-                const result = this.sessionDecremenetAndIncrement;
-                return result;
-            }
-        } 
-        
+        return this.sessionDecremenetAndIncrement = this.plus(this.sessionDecremenetAndIncrement);
     }
 
-    showSessionLength() {
-        return this.sessionDecremenetAndIncrement;
+    reset() {
+        return {
+            sessionDecremenetAndIncrement:25
+        }
     }
-
-    resetSessionDecremenetAndIncrement = () => this.sessionDecremenetAndIncrement = 25;
 }
-class ClassMinutesAndSecond extends TakeAwayAndAdd {
+class ClassMinutesAndSecond extends TakeAwayAndAdd{
     constructor() {
         super()
         this.minutes = 25; 
-        this.seconds = "00";
+        this.seconds = 0;
         this.count = 60;
+        this.startandStopTime = true;
+        this.sessionTitle ="Session";
+        this.sessionOrBreak = true;
     }
 
     hourFormat(min, sec) {
-        return min + ":" + sec;
+        if(min < 10) {
+            min = `${0}${min}`;
+        }
+        if(sec < 10) {
+            sec =  `${0}${sec}`;
+        }
+        return `${min}:${sec}`;
     }
 
     countDownMinutes() {
-        this.minutes =  this.operators.subtractor(this.minutes, 1);
-        if(this.minutes < 10) {
-            return "0" + this.minutes;
-        } else {
-            return this.minutes;
-        }
+        return this.minutes =  this.countMinutesDown(this.seconds, this.minutes);
     }
 
     countDownSeconds() {
-        this.seconds =  this.operators.subtractor(this.count, 1);
-        this.count = this.seconds;
-        if(this.count < 10) {
-            return "0" + this.seconds;
-        } else {
-            return this.seconds;
+        this.count =  this.countSecondsDown(this.count);
+        this.seconds = this.count
+        return this.seconds;
+    }
+
+    breakTime(breakTitle) {
+        if(this.startBreakTime(this.minutes, this.seconds)) {
+            return true;
+        
         }
     }
 
-    resetClassMinutesAndSeconds() {
-        this.minutes = 25;
-        this.seconds =  "00";
-        this.count = 60;
+    reset() {
+        return {
+            seconds: 0,
+            count: 60,
+            sessionTitle:"Session",
+            sessionOrBreak: true
+        }
+    }
+
+    resetMinutes() {
+        return {
+            minutes: 25,
+            startandStopTime: true 
+        }
     }
 }
 
@@ -118,34 +122,35 @@ class ClassBreak extends TakeAwayAndAdd{
     }
 
     breakDecrement() {
-        if(this.breakDecrementAndIncrement > 1) {
-            return this.breakDecrementAndIncrement = this.operators.subtractor(this.breakDecrementAndIncrement, 1);
-        }
+        return this.breakDecrementAndIncrement =  this.takeAway(this.breakDecrementAndIncrement);
     }
 
     breakIncrement() {
-        if(this.breakDecrementAndIncrement < 60 ) {
-            return this.breakDecrementAndIncrement =this.operators.add(this.breakDecrementAndIncrement, 1);
+        return this.breakDecrementAndIncrement =  this.plus(this.breakDecrementAndIncrement);
+    }
+    reset() {
+        return {
+            breakDecrementAndIncrement:5
         }
     }
-
-    showBreakLength() {
-        return this.breakDecrementAndIncrement;
-    } 
-
-    resetBreakDecrementAndIncrement = () => this.breakDecrementAndIncrement = 5;
 }
+
+
+let keepTrackOfTime;
+let breakstart ;
 
 $(document).ready(function () {
 
     const startBreak = new ClassBreak();
     const startSession = new ClassSession();
     const setMinuteAndSecond = new ClassMinutesAndSecond();
-    const trueOrFalse = new ClassTrueOrFalse();
 
-    $("#break-length").text(startBreak.showBreakLength());
-    $("#session-length").text(startSession.showSessionLength());
-    $("#timer-label").text(trueOrFalse.sessionTitle);
+    const beep = window.document.getElementById("beep"); 
+    const audio = new Audio(beep.src);
+
+    $("#break-length").text(startBreak.breakDecrementAndIncrement);
+    $("#session-length").text(startSession.sessionDecremenetAndIncrement);
+    $("#timer-label").text(setMinuteAndSecond.sessionTitle);
     $("#break-decrement").on("click", breakDecrement);
     $("#break-increment").on("click", breakIncrement);
     $("#session-decrement").on("click", sessionDecrement);
@@ -153,102 +158,121 @@ $(document).ready(function () {
     $("#start_stop").on("click", startStopTime);
     $("#reset").on("click", resetTheClock);
     $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));
-   
 
     function breakDecrement() {
-        if(trueOrFalse.showStartAndStop()) {
+        if(setMinuteAndSecond.startandStopTime) {
             const cls = startBreak.breakDecrement();
             $("#break-length").text(cls);
         }
     }
 
     function breakIncrement() {
-        if(trueOrFalse.showStartAndStop()) {
+        if(setMinuteAndSecond.startandStopTime) {
             const cls = startBreak.breakIncrement();
             $("#break-length").text(cls);
         }
     }
 
     function sessionDecrement() {
-        if(trueOrFalse.showStartAndStop()) { 
+        if(setMinuteAndSecond.startandStopTime) { 
             const cls = startSession.sessionDecrement();
             setMinuteAndSecond.minutes = cls;
-            setMinuteAndSecond.seconds = "00";
-            setMinuteAndSecond.count = 60;
+            setMinuteAndSecond.count = setMinuteAndSecond.reset().count;
+            setMinuteAndSecond.seconds = setMinuteAndSecond.reset().seconds;
+            setMinuteAndSecond.sessionTitle = setMinuteAndSecond.reset().sessionTitle;
+            setMinuteAndSecond.sessionOrBreak = setMinuteAndSecond.reset().sessionOrBreak;
             $("#session-length").text(cls);
-            $("#time-left").text(setMinuteAndSecond.hourFormat(cls, setMinuteAndSecond.seconds));     
+            $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));   
+            $("#timer-label").text(setMinuteAndSecond.sessionTitle);  
+
         }
     }
 
     function sessionIncrement() {
-        if(trueOrFalse.showStartAndStop()) { 
+        if(setMinuteAndSecond.startandStopTime) { 
             const cls = startSession.sessionIncrement();
             setMinuteAndSecond.minutes = cls;
-            setMinuteAndSecond.seconds = "00";
-            setMinuteAndSecond.count = 60;
+            setMinuteAndSecond.count = setMinuteAndSecond.reset().count;
+            setMinuteAndSecond.seconds = setMinuteAndSecond.reset().seconds;
+            setMinuteAndSecond.sessionTitle = setMinuteAndSecond.reset().sessionTitle;
+            setMinuteAndSecond.sessionOrBreak = setMinuteAndSecond.reset().sessionOrBreak;
             $("#session-length").text(cls);
-            $("#time-left").text(setMinuteAndSecond.hourFormat(cls, setMinuteAndSecond.seconds));   
+            $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));   
+            $("#timer-label").text(setMinuteAndSecond.sessionTitle);
         }
     }
 
     function startStopTime() {
-        if(trueOrFalse.showStartAndStop()) {
-            trueOrFalse.keepTrackOfTime = setInterval(startTickingTime, 1000);
-            trueOrFalse.startandStopTime = false;
+        if(setMinuteAndSecond.startandStopTime) { 
+            
+            keepTrackOfTime = setInterval(startTickingTime, 1000)
+            setMinuteAndSecond.startandStopTime = false;
+            
         }
         else {
-            if(!trueOrFalse.showStartAndStop()) {
-                clearInterval(trueOrFalse.keepTrackOfTime);
-                trueOrFalse.startandStopTime = true;
+            if(!setMinuteAndSecond.startandStopTime) {
+                clearInterval(keepTrackOfTime);
+                setMinuteAndSecond.startandStopTime = true;
             }
         }
+
     }
-        
+
     function startTickingTime() {
         setMinuteAndSecond.seconds = setMinuteAndSecond.countDownSeconds();
-       
-        if( setMinuteAndSecond.seconds === 59) {   
-            trueOrFalse.sessionTitle = "Session"; 
-            $("#timer-label").text(trueOrFalse.sessionTitle);
-            setMinuteAndSecond.minutes = setMinuteAndSecond.countDownMinutes();
-            $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));  
-        }
-        else {
-            $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));
+        setMinuteAndSecond.countDownMinutes();
 
-            if(setMinuteAndSecond.count === 0) {
-                setMinuteAndSecond.count = 60;
+        $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds)); 
+
+        if(setMinuteAndSecond.count === 0) {
+        
+            setMinuteAndSecond.count = 60;
+        }
+
+        if(setMinuteAndSecond.breakTime()) {
+            window.document.getElementById("beep").play();
+            if(setMinuteAndSecond.sessionTitle ==="Session") {
+                setMinuteAndSecond.seconds = setMinuteAndSecond.countDownSeconds();
+                setMinuteAndSecond.countDownMinutes();
+                setMinuteAndSecond.sessionTitle ="Break";
+                setMinuteAndSecond.minutes = startBreak.breakDecrementAndIncrement;
+                $("#timer-label").text(setMinuteAndSecond.sessionTitle);
+    
             }
         }
-        if(setMinuteAndSecond.minutes === "00" && setMinuteAndSecond.seconds === "00") {
-            trueOrFalse.sessionTitle ="Break";
-            $("#timer-label").text(trueOrFalse.sessionTitle);
-            $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));  
-            let breakLength = startBreak.showBreakLength();
-
-            if(breakLength > 9) {
-                setMinuteAndSecond.minutes = "";
-                setMinuteAndSecond.minutes = breakLength;
-                $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));  
-                setMinuteAndSecond.count = setMinuteAndSecond.resetCount(); 
-            } else {
-                setMinuteAndSecond.minutes = "";
-                setMinuteAndSecond.minutes = "0" + breakLength;
-                $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));  
-                setMinuteAndSecond.count = setMinuteAndSecond.resetCount(); 
+        if(setMinuteAndSecond.breakTime()) {
+            window.document.getElementById("beep").play();
+            if(setMinuteAndSecond.sessionTitle ==="Break") {
+                setMinuteAndSecond.seconds = setMinuteAndSecond.countDownSeconds();
+                setMinuteAndSecond.countDownMinutes();
+                setMinuteAndSecond.sessionTitle ="Session";
+                setMinuteAndSecond.minutes = startSession.sessionDecremenetAndIncrement;
+                $("#timer-label").text(setMinuteAndSecond.sessionTitle);
             }
         }
     }
 
     function resetTheClock() {
-        clearInterval(trueOrFalse.keepTrackOfTime);
-        trueOrFalse.resetClassTrueFalse();
-        setMinuteAndSecond.resetClassMinutesAndSeconds();
+        clearInterval(keepTrackOfTime);
+        keepTrackOfTime = 0;
+        const resetBreak = startBreak.reset();
+        const resetSession = startSession.reset();
+        const resetMinutes = setMinuteAndSecond.resetMinutes();
+        const resetOther = setMinuteAndSecond.reset();
+        startBreak.breakDecrementAndIncrement = resetBreak.breakDecrementAndIncrement;
+        startSession.sessionDecremenetAndIncrement = resetSession.sessionDecremenetAndIncrement;
+        setMinuteAndSecond.minutes = resetMinutes.minutes;
+        setMinuteAndSecond.seconds = resetOther.seconds;
+        setMinuteAndSecond.startandStopTime = resetMinutes.startandStopTime;
+        setMinuteAndSecond.sessionTitle = resetOther.sessionTitle;
+        setMinuteAndSecond.sessionOrBreak = resetOther.sessionOrBreak;
+        setMinuteAndSecond.count = resetOther.count;
+        $("#break-length").text(startBreak.breakDecrementAndIncrement);
+        $("#session-length").text(startSession.sessionDecremenetAndIncrement);
         $("#time-left").text(setMinuteAndSecond.hourFormat(setMinuteAndSecond.minutes, setMinuteAndSecond.seconds));
-        $("#timer-label").text(trueOrFalse.sessionTitle);
-        $("#break-length").text(startBreak.resetBreakDecrementAndIncrement());
-        $("#session-length").text(startSession.resetSessionDecremenetAndIncrement());
-        
+        $("#timer-label").text(setMinuteAndSecond.sessionTitle);
+        window.document.getElementById("beep").pause();
+        window.document.getElementById("beep").currentTime = 0;
     }
 
 });
